@@ -1,12 +1,16 @@
-# Updater IP OpenDNS.com 
+# OpenDNS.com Updater IP  
 
 This script is designed to automatically update the IP address on OpenDNS It periodically checks for IP changes and performs the update if necessary.
 
 ## Prerequisites
 
 - Python 3.x
-- Requests library (`pip install requests`)
-
+- Requests library 
+  
+  ```python
+    pip install dotenv
+    pip install python-dotenv
+  ```
 ## Configuration
 
 1. Open the `.env` file and enter your OpenDNS credentials (`USERNAME` and `PASSWORD`).

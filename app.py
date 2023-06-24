@@ -117,6 +117,16 @@ while True:
 
     # Verificar si la IP ha cambiado
     if stored_ip != current_ip:
+        # Actualizar el archivo de configuración con la dirección IP actual
+        try:
+            config.set('public', 'ipaddress', current_ip)
+        except configparser.Error:
+            config.add_section('public')
+            config.set('public', 'ipaddress', current_ip)
+        finally:
+            with open(config_filename, 'w') as f:
+                config.write(f)
+
         print('IP address has changed. Updating OpenDNS ...')
         update_result = update_dnsomatic_ip(current_ip)
         if update_result.startswith('good'):
@@ -129,15 +139,6 @@ while True:
     else:
         print('The stored and current IP addresses match. No DNS update necessary.')
 
-    # Actualizar el archivo de configuración con la dirección IP actual
-    try:
-        config.set('public', 'ipaddress', current_ip)
-    except configparser.Error:
-        config.add_section('public')
-        config.set('public', 'ipaddress', current_ip)
-    finally:
-        with open(config_filename, 'w') as f:
-            config.write(f)
 
     # Esperar para  la próxima verificación
     print(f'Waiting for {time_update} second before the next IP check...')
